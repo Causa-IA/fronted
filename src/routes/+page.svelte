@@ -15,11 +15,23 @@
       });
 
       const data = await response.json();
-      console.log(data);
+      console.log("Respuesta login:", data);
 
       if (response.ok) {
         showNotification("✅ Login exitoso", "success");
-        setTimeout(() => window.location.href = "/search_student", 500);
+      // 🎯 VALIDAR ROL
+        const rol = data.id_rol;
+
+        setTimeout(() => {
+
+          if (rol === 2) {
+            // 👑 ADMIN → Dashboard
+            window.location.href = "/dashboard";
+          } else {
+            // 👨‍⚕️ NORMAL → flujo normal
+            window.location.href = "/search_student";
+          }
+        }, 400);
       } else {
         showNotification(data.detail || "❌ Credenciales inválidas", "error");
       }
@@ -32,7 +44,7 @@
     const notif = document.getElementById("notification");
     notif.textContent = message;
     notif.className = "notification show " + type;
-    setTimeout(() => notif.classList.remove("show"), 1000);
+    setTimeout(() => notif.classList.remove("show"), 400);
   }
 
   function togglePassword() {
