@@ -9,7 +9,7 @@
     event.preventDefault();
 
     try {
-      const response = await fetch(`https://fastapi1-production-5179.up.railway.app/estudiantes/get_estudiante/${numero_identificacion}`);
+      const response = await fetch(`https://fastapi1-3jjn.onrender.com/estudiantes/get_estudiante/${numero_identificacion}`);
 
       if (response.ok) {
         const data = await response.json();
