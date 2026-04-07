@@ -4,7 +4,7 @@
 
   let cedula = "";
   let consultas = [];
-  const API_URL = "https://fastapi1-production-5179.up.railway.app";
+  const API_URL = "https://fastapi1-3jjn.onrender.com";
 
   async function obtenerNombreEstudiante(id_estudiante) {
   try {
