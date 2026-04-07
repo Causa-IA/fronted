@@ -11,7 +11,7 @@
     const usuario = { primer_nombre, primer_apellido, email, password };
 
     try {
-      const response = await fetch("https://fastapi1-production-5179.up.railway.app/register", {
+      const response = await fetch("https://fastapi1-3jjn.onrender.com/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(usuario)
