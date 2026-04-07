@@ -19,6 +19,12 @@
 
       if (response.ok) {
         showNotification("✅ Login exitoso", "success");
+
+        localStorage.setItem("access_token", data.access_token);
+        localStorage.setItem("rol", data.rol);
+        localStorage.setItem("id_usuario", data.id_usuario);
+        localStorage.setItem("email", data.email);
+
       // 🎯 VALIDAR ROL
         const rol = data.id_rol;
 
