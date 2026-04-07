@@ -20,13 +20,13 @@
     let fecha_registro; 
 
     onMount(async () => {
-        const response = await fetch("https://fastapi1-production-5179.up.railway.app/usuarios/get_usuarios/")
+        const response = await fetch("https://fastapi1-3jjn.onrender.com/usuarios/get_usuarios/")
         const data = await response.json();
         usuarios = data.resultado;
     })
 
     onMount(async () => {
-        const response = await fetch("https://fastapi1-production-5179.up.railway.app/facultades/get_facultades/");
+        const response = await fetch("https://fastapi1-3jjn.onrender.com/facultades/get_facultades/");
         const data = await response.json();
         facultades = data.resultado;
     });
@@ -39,7 +39,7 @@
 
     async function fetchProgramas(facultadId) {
         try {
-            const response = await fetch(`https://fastapi1-production-5179.up.railway.app/programas/get_programas_por_facultad/${facultadId}`);
+            const response = await fetch(`https://fastapi1-3jjn.onrender.com/programas/get_programas_por_facultad/${facultadId}`);
             const data = await response.json();
             programas = data.resultado;
         } catch (error) {
@@ -77,7 +77,7 @@
         formData = limpiarCampos(formData);
 
         try {
-            const response = await fetch("https://fastapi1-production-5179.up.railway.app/estudiantes/create_estudiante", {
+            const response = await fetch("https://fastapi1-3jjn.onrender.com/estudiantes/create_estudiante", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
