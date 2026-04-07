@@ -4,7 +4,7 @@
   import HamburgerMenu from "$lib/HamburgerMenu.svelte";
 
   let consulta = null;
-  const API_URL = "https://fastapi1-production-5179.up.railway.app";
+  const API_URL = "https://fastapi1-3jjn.onrender.com";
 
   onMount(async () => {
     if (!browser) return;
