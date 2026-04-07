@@ -6,7 +6,7 @@
 
   Chart.register(...registerables);
 
-  const API = 'https://fastapi1-production-5179.up.railway.app';
+  const API = 'https://fastapi1-3jjn.onrender.com';
 
   let loading = true;
   let error = '';
