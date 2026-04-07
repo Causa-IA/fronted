@@ -22,7 +22,7 @@ let id_clinica = "";
 let razon = "";
 let fecha_derivacion = "";
 
-const API_URL = "https://fastapi1-production-5179.up.railway.app";
+const API_URL = "https://fastapi1-3jjn.onrender.com";
 
 onMount(async () => {
     if(browser){
