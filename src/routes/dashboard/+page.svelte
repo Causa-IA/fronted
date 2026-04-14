@@ -1,10 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { goto } from '$app/navigation';
-  import { Chart, registerables } from 'chart.js';
   import HamburgerMenu from "$lib/HamburgerMenu.svelte";
-
-  Chart.register(...registerables);
 
   const API = 'https://fastapi1-3jjn.onrender.com';
 
@@ -16,68 +12,6 @@
   let totalEmergencias = 0;
 
   let nombreUsuario = 'Administrador';
-
-  let canvasPorEnfermera;
-  let canvasPorFecha;
-  let chartEnfermera = null;
-  let chartFecha = null;
-
-  function agruparPorCampo(lista, campo) {
-    return lista.reduce((acc, item) => {
-      const key = item[campo] || 'Sin datos';
-      acc[key] = (acc[key] || 0) + 1;
-      return acc;
-    }, {});
-  }
-
-  function agruparPorFecha(consultas) {
-    return consultas.reduce((acc, item) => {
-      const fecha = item.fecha_entrada
-        ? item.fecha_entrada.substring(0, 10)
-        : 'Sin fecha';
-      acc[fecha] = (acc[fecha] || 0) + 1;
-      return acc;
-    }, {});
-  }
-
-  function crearGraficaBarras(canvas, labels, data, label, color) {
-    return new Chart(canvas, {
-      type: 'bar',
-      data: {
-        labels,
-        datasets: [{
-          label,
-          data,
-          backgroundColor: color,
-          borderRadius: 6,
-          borderSkipped: false
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            callbacks: {
-              label: ctx => ` ${ctx.parsed.y} consultas`
-            }
-          }
-        },
-        scales: {
-          y: {
-            beginAtZero: true,
-            ticks: { stepSize: 1, color: '#cbd5e1' },
-            grid: { color: 'rgba(255,255,255,0.05)' }
-          },
-          x: {
-            ticks: { color: '#cbd5e1', maxRotation: 45 },
-            grid: { display: false }
-          }
-        }
-      }
-    });
-  }
 
   onMount(async () => {
     const stored = localStorage.getItem('session');
@@ -101,39 +35,11 @@
       const estudiantes = (await resEstudiantes.json()).resultado;
       const emergencias = (await resEmergencias.json()).resultado;
 
-      // ← LOGS AQUÍ
-      console.log('CONSULTAS:', consultas);
-      console.log('ESTUDIANTES:', estudiantes);
-      console.log('EMERGENCIAS:', emergencias);
-
       totalConsultas   = consultas.length;
       totalEstudiantes = estudiantes.length;
       totalEmergencias = emergencias.length;
 
-      const porEnfermera = agruparPorCampo(consultas, 'nombre_enfermera');
-      const labelsEnfermera = Object.keys(porEnfermera);
-      const dataEnfermera   = Object.values(porEnfermera);
-
-      const porFechaRaw = agruparPorFecha(consultas);
-      const fechasOrdenadas = Object.keys(porFechaRaw).sort().slice(-10);
-      const dataFecha = fechasOrdenadas.map(f => porFechaRaw[f]);
-
       loading = false;
-
-      await new Promise(r => setTimeout(r, 0));
-
-      if (chartEnfermera) chartEnfermera.destroy();
-      if (chartFecha) chartFecha.destroy();
-
-      chartEnfermera = crearGraficaBarras(
-        canvasPorEnfermera, labelsEnfermera, dataEnfermera,
-        'Consultas por enfermera', 'rgba(99, 179, 237, 0.8)'
-      );
-
-      chartFecha = crearGraficaBarras(
-        canvasPorFecha, fechasOrdenadas, dataFecha,
-        'Consultas por fecha', 'rgba(154, 117, 234, 0.8)'
-      );
 
     } catch (e) {
       error = e.message;
@@ -141,7 +47,6 @@
     }
   });
 </script>
-
 
 <div class="dashboard">
 
@@ -151,6 +56,7 @@
   </header>
 
   <HamburgerMenu />
+
   {#if loading}
     <div class="center-msg">
       <div class="spinner"></div>
@@ -188,18 +94,17 @@
       </div>
     </section>
 
-    <section class="charts">
+    <!-- ✅ iframe de Power BI -->
+    <section class="powerbi-section">
       <div class="chart-box">
-        <h2>Consultas por Enfermera</h2>
-        <div class="chart-wrapper">
-          <canvas bind:this={canvasPorEnfermera}></canvas>
-        </div>
-      </div>
-
-      <div class="chart-box">
-        <h2>Consultas por Fecha <span class="sub">(últimos 10 días)</span></h2>
-        <div class="chart-wrapper">
-          <canvas bind:this={canvasPorFecha}></canvas>
+        <h2>📊 Reporte Power BI</h2>
+        <div class="powerbi-wrapper">
+          <iframe
+            title="enfermeras"
+            src="https://app.powerbi.com/reportEmbed?reportId=42bd2357-3477-44af-b14e-acd1a93cd941&autoAuth=true&ctid=740be6bd-fd36-470e-94d9-0f0c777fadb9"
+            frameborder="0"
+            allowfullscreen="true"
+          ></iframe>
         </div>
       </div>
     </section>
@@ -244,6 +149,7 @@
     border: 1px solid rgba(255,255,255,0.1);
   }
 
+  /* Cards */
   .cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -280,10 +186,9 @@
     color: #e2e8f0;
   }
 
-  .charts {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-    gap: 1.5rem;
+  /* Power BI */
+  .powerbi-section {
+    margin-top: 1.5rem;
   }
   .chart-box {
     background: rgba(255,255,255,0.04);
@@ -298,16 +203,23 @@
     font-weight: 600;
     color: #cbd5e1;
   }
-  .sub {
-    font-size: 0.75rem;
-    color: #64748b;
-    font-weight: 400;
-  }
-  .chart-wrapper {
+  .powerbi-wrapper {
     position: relative;
-    height: 260px;
+    width: 100%;
+    /* Mantiene proporción 1140x541 de Power BI */
+    padding-top: 47.5%;
+  }
+  .powerbi-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 10px;
   }
 
+  /* Mensajes */
   .center-msg {
     display: flex;
     flex-direction: column;
