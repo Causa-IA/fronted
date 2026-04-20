@@ -1,0 +1,48 @@
+# =========================
+# Python
+# =========================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Entornos virtuales
+venv/
+venv310/
+.env/
+
+# =========================
+# Node
+# =========================
+node_modules/
+
+# =========================
+# Build / Output
+# =========================
+.output
+.vercel
+.netlify
+.wrangler
+.svelte-kit
+/build
+dist/
+
+# =========================
+# OS
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Env files
+# =========================
+.env
+.env.*
+!.env.example
+!.env.test
+
+# =========================
+# Vite
+# =========================
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
