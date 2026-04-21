@@ -1,4 +1,5 @@
 <script>
+  import { onMount } from 'svelte';
   import HamburgerMenu from "$lib/HamburgerMenu.svelte";
   import CerrarSesion from '$lib/CerrarSesion.svelte';
 
@@ -105,7 +106,6 @@
     </section>
   {/if}
 
-</div>
 
 <style>
   :global(body) {
@@ -115,34 +115,6 @@
     color: #e2e8f0;
   }
 
-  .dashboard {
-    min-height: 100vh;
-    padding: 2rem;
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  }
-
-  .dash-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-  }
-  .dash-header h1 {
-    font-size: 1.8rem;
-    font-weight: 700;
-    background: linear-gradient(90deg, #63b3ed, #9a75ea);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .usuario-info {
-    font-size: 0.9rem;
-    color: #94a3b8;
-    background: rgba(255,255,255,0.05);
-    padding: 0.4rem 1rem;
-    border-radius: 20px;
-    border: 1px solid rgba(255,255,255,0.1);
-  }
 
   /* Cards */
   .cards {
