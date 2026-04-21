@@ -30,7 +30,10 @@
 
         setTimeout(() => {
 
-          if (rol === 2) {
+          if (rol === 3) {
+            // 👑 ADMIN → Dashboard
+            window.location.href = "/admin";
+          } else if (rol === 2) {
             // 👑 ADMIN → Dashboard
             window.location.href = "/dashboard";
           } else {
