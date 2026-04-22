@@ -8,7 +8,7 @@
     verClinicas:    '/admin/clinicas',
     verFacultad:    '/admin/facultad',
     verProgramas:   '/admin/programas',
-    verReportes:    '/admin/reportes',
+    verReportes:    '/reportes',
   };
 
   const modules = [
