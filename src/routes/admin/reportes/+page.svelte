@@ -22,6 +22,15 @@
     await cargarDatos();
   });
 
+
+  async function notificarReporte() {
+    try {
+      await fetch(`${API_URL}/email/reporte_generado`, { method: 'POST' });
+    } catch {
+      console.error('Error al enviar el email');
+    }
+  }
+
   async function cargarDatos() {
     loading = true;
     try {
@@ -242,7 +251,7 @@
         doc.setPage(i);
         dibujarPiePagina(i, total);
       }
-
+      await notificarReporte();
       // ── Descargar ──
       const nombreArchivo = `reporte_consultas_${new Date().toISOString().slice(0, 10)}.pdf`;
       doc.save(nombreArchivo);
